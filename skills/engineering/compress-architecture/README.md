@@ -4,7 +4,7 @@
 
 Image source: [EONMSK, attributed to SpaceX](https://www.eonmsk.com/2024/08/03/spacex-raptor-1-vs-raptor-2-vs-raptor-3/).
 
-## The Hook
+## Intro
 
 SpaceX's Raptor engine progression is a useful mental model for software architecture.
 
