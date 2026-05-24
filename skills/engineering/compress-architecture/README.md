@@ -18,6 +18,8 @@ Can the system do the same job with fewer visible parts?
 
 The target is not minimalism for its own sake. The target is less accidental complexity: fewer speculative layers, fewer pass-through modules, fewer duplicate concepts, and fewer abstractions that no longer earn their keep.
 
+The skill does not optimize for fewer files or fewer lines. It optimizes for fewer concepts, clearer ownership, and less incidental coupling.
+
 ## What This Skill Does
 
 `/compress-architecture` runs a Raptor-style audit of a codebase or a scoped part of a codebase.
@@ -28,6 +30,7 @@ It makes the agent:
 - classify components with a fixed vocabulary
 - challenge thin abstractions and speculative layers
 - protect boundaries that are genuinely load-bearing
+- ignore generated files, vendored code, build output, framework boilerplate, and other noisy areas unless asked
 - produce a ranked compression report before editing files
 
 The skill does not immediately refactor. It reports first, waits for confirmation, and then changes one thing at a time.
@@ -91,21 +94,26 @@ Audit the billing workflow only. Focus on services, repositories, and adapters.
 ### src/billing/invoice-service.ts
 Label: delegating
 Proposed action: collapse
-Complexity delta: Medium
+Expected simplification: Medium
+Risk: Low
+Confidence: Medium
+Evidence:
+- src/billing/invoice-service.ts: forwards all public methods to the repository without policy or error handling.
+- src/billing/create-invoice.ts: already performs validation and authorization before calling the service.
 Reasoning: This service forwards calls to the repository without adding policy, validation, or error handling. Collapsing it into the billing command handler removes a layer without weakening a domain boundary.
 
-Summary: 4 load-bearing, 3 candidates for compression (1 High / 1 Medium / 1 Low impact).
+Summary: 4 load-bearing, 3 candidates for compression (1 High / 1 Medium / 1 Low expected simplification).
 ```
 
-## What "Complexity Delta" Means
+## What "Expected Simplification" Means
 
-Complexity delta is the expected net change in total system complexity if the recommendation is applied.
+Expected simplification is the expected net reduction in total system complexity if the recommendation is applied.
 
 - `High`: removes a major layer, boundary, or repeated concept
 - `Medium`: simplifies a local workflow or collapses a thin abstraction
 - `Low`: tidies a small pass-through file, folder, or type
 
-If the term feels too opaque in practice, rename it to `Impact`. The concept is just priority: do the changes that reduce the most complexity first.
+The concept is priority: do the changes that reduce the most complexity first.
 
 ## Red Lines
 
@@ -118,6 +126,14 @@ The skill should not collapse:
 - modules that change at different rates
 
 Small is not automatically bad. Thin is only suspect when it does not protect a real boundary.
+
+The skill should also be comfortable saying:
+
+```txt
+No compression recommended in this scope.
+```
+
+Forced simplification is just another form of accidental complexity.
 
 ## Files
 

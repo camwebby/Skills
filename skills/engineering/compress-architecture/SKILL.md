@@ -7,6 +7,8 @@ description: Use this skill when the user asks to simplify, refactor, audit, or 
 
 Perform a Raptor 3 audit: reduce accidental complexity while preserving complexity the problem actually demands. Every abstraction, layer, and module must justify its existence. If it cannot, recommend collapsing, deleting, renaming, moving, or splitting it.
 
+Do not optimize for fewer files or fewer lines. Optimize for fewer concepts, clearer ownership, and less incidental coupling.
+
 Ask the user to scope the audit first if the codebase is large.
 
 ## Workflow
@@ -17,11 +19,15 @@ Before judging, silently inventory:
 
 - Architectural boundaries: services, packages, repositories, modules, layers.
 - Wrappers: adapters, facades, utility files, thin services.
-- Files or modules under about 60 lines that mostly delegate.
+- Files or modules that mostly delegate without adding policy, translation, isolation, or error handling.
 - Types or interfaces that only rename another type.
 - Folders with only one file.
 
 Use this inventory as working memory. Do not print it raw.
+
+Small files are not findings. Size is only a weak smell. A small module can be load-bearing when it names a real concept, protects a boundary, improves testability, or isolates change.
+
+Ignore generated files, vendored code, lockfiles, snapshots, migrations, build output, framework boilerplate, and test fixtures unless the user explicitly asks to audit them.
 
 ### 2. Classify Components
 
@@ -34,6 +40,8 @@ Assign each inventoried item exactly one label:
 - `misplaced`: Right idea, wrong abstraction level or location.
 
 If classification is genuinely hard, note that ambiguity in the report.
+
+If there are no credible candidates, say that directly. Do not force a recommendation.
 
 ### 3. Apply Compression Questions
 
@@ -63,16 +71,28 @@ Present a ranked list, most impactful first. Use this exact structure for each c
 
 ```text
 ### [Component name or path]
-Label: delegating | speculative | duplicate | misplaced
-Proposed action: COLLAPSE | DELETE | RENAME | MOVE | SPLIT | KEEP (justified)
-Complexity delta: High / Medium / Low
+Label: load-bearing | speculative | delegating | duplicate | misplaced
+Proposed action: collapse | delete | rename | move | split | keep
+Expected simplification: High / Medium / Low
+Risk: High / Medium / Low
+Confidence: High / Medium / Low
+Evidence:
+- [file/path]: [concrete observation]
 Reasoning: [1-3 direct sentences.]
 ```
 
 After the list, include:
 
 ```text
-Summary: X load-bearing, Y candidates for compression (Z High / W Medium / V Low impact).
+Summary: X load-bearing, Y candidates for compression (Z High / W Medium / V Low expected simplification).
+```
+
+If no compression is recommended, use:
+
+```text
+No compression recommended in this scope.
+Reasoning: [1-3 direct sentences explaining why the current structure appears load-bearing.]
+Summary: X load-bearing, 0 candidates for compression.
 ```
 
 ## Interaction Rules
@@ -84,6 +104,7 @@ Summary: X load-bearing, Y candidates for compression (Z High / W Medium / V Low
 - Rename before deleting when deadness is uncertain.
 - Use only this vocabulary for labels: `load-bearing`, `speculative`, `delegating`, `duplicate`, `misplaced`.
 - Use only this vocabulary for actions: `collapse`, `delete`, `rename`, `move`, `split`, `keep`.
+- Do not recommend changes without evidence from specific files or concrete repository observations.
 
 ## Tone
 
