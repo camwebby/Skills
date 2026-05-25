@@ -20,7 +20,7 @@ The skill should recover the plan and context, ask for missing material only if 
 
 ## Example Output Shape
 
-```txt
+````markdown
 # Auto-research cloud MVP - C4 diagrams
 
 Scope:
@@ -51,7 +51,7 @@ C4Context
 ## Level 2 - Container
 
 ...
-```
+````
 
 ## Good Diagram Set For A Cloud Workflow
 
@@ -64,4 +64,3 @@ C4Context
 - State diagrams for cycle and container lifecycle
 - Data-flow summary if source-of-truth is easy to confuse
 - Evolution table when previous designs were rejected
-
