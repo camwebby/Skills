@@ -11,7 +11,7 @@ Use the architecture plan in this thread and write the C4 diagram doc.
 
 ```txt
 /c4-diagram-sequence
-Read MVP-CLOUD.md and the current thread. Write docs/architecture/auto-research-c4.md.
+Read the architecture plan and current decision thread. Write docs/architecture/system-c4.md.
 ```
 
 ## Expected Behavior
@@ -21,16 +21,16 @@ The skill should recover the plan and context, ask for missing material only if 
 ## Example Output Shape
 
 ````markdown
-# Auto-research cloud MVP - C4 diagrams
+# Order fulfillment workflow - C4 diagrams
 
 Scope:
-- Cloud-native v1 auto-research cycle.
+- Customer order placement through fulfillment handoff.
 
 Key decisions:
-- Cron is the only cycle starter.
-- Cloudflare Workflow owns one durable cycle.
-- Cloudflare Containers run interruptible eval compute.
-- customer-api is the temporary bridge to the private prompt eval DB.
+- The web app owns customer-facing checkout.
+- The order API owns validation and order state transitions.
+- The fulfillment worker owns asynchronous warehouse handoff.
+- The order database is the source of truth for order status.
 
 How to read these diagrams:
 | Level | Diagram type | Question it answers |
@@ -38,14 +38,14 @@ How to read these diagrams:
 | 1 | System Context | Who uses the system and what external systems does it talk to? |
 | 2 | Container | What are the major deployable/runtime pieces? |
 | 3 | Component | What important modules live inside changed containers? |
-| - | Dynamic | What happens step-by-step during a cycle? |
+| - | Dynamic | What happens step-by-step during the workflow? |
 | - | Deployment | Where does each container run? |
 
 ## Level 1 - System Context
 
 ```mermaid
 C4Context
-    title Level 1 - System Context: Auto-research
+    title Level 1 - System Context: Order fulfillment workflow
 ```
 
 ## Level 2 - Container
@@ -53,14 +53,15 @@ C4Context
 ...
 ````
 
-## Good Diagram Set For A Cloud Workflow
+## Good Diagram Set For An Async Workflow
 
 - Context diagram
 - Container diagram
-- Component diagrams for Worker, eval container, and imported research modules
+- Component diagrams for the API and worker if their internal responsibilities matter
 - Dynamic happy path
-- Dynamic reject/failure paths if the approval or failure behavior is architecturally important
+- Dynamic failure/retry path if failure behavior is architecturally important
 - Deployment diagram
-- State diagrams for cycle and container lifecycle
-- Data-flow summary if source-of-truth is easy to confuse
+- State diagram for the workflow lifecycle
+- Data-flow summary if source-of-truth ownership is easy to confuse
 - Evolution table when previous designs were rejected
+

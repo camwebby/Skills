@@ -35,9 +35,9 @@ Use this skill when you say things like:
 - "Write the system context/container/component diagrams for this MVP."
 - "Make this design easier to explain."
 - "Create a Mermaid C4 sequence from the plan in this thread."
-- "Read `MVP-CLOUD.md` and write the architecture diagrams."
+- "Read the architecture plan and write the diagram document."
 
-It works especially well for cloud workflows, orchestration systems, async jobs, approval flows, research/eval loops, multi-container features, deployment changes, and refactors where the boundary between modules is easy to blur.
+It works especially well for cloud workflows, orchestration systems, async jobs, approval flows, multi-container features, deployment changes, and refactors where the boundary between modules is easy to blur.
 
 ## What Good Output Looks Like
 
@@ -96,7 +96,7 @@ With a target file:
 
 ```txt
 /c4-diagram-sequence
-Read MVP-CLOUD.md and the current architecture thread. Write docs/architecture/auto-research-c4.md.
+Read the architecture plan and current decision thread. Write docs/architecture/system-c4.md.
 ```
 
 ## Guardrails
@@ -112,4 +112,3 @@ Read MVP-CLOUD.md and the current architecture thread. Write docs/architecture/a
 
 - [SKILL.md](SKILL.md): agent instructions
 - [examples.md](examples.md): example invocation and output shape
-
