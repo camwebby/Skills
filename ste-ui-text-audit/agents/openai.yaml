@@ -1,0 +1,4 @@
+interface:
+  display_name: "STE UI Text Audit"
+  short_description: "Audit and simplify instructional UI copy"
+  default_prompt: "Use $ste-ui-text-audit to audit and rewrite instructional UI text."
