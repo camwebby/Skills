@@ -1,0 +1,3 @@
+interface:
+  display_name: "Business Idea Validator"
+  short_description: "Validate and red-team startup ideas with a staged pipeline, scorecard, and experiment plan."
